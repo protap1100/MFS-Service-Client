@@ -4,6 +4,9 @@ import Home from "../pages/home/Home";
 import Login from "../pages/authentications/Login";
 import Transactions from "../pages/transaction/Transactions";
 import Register from "../pages/authentications/Register";
+import UserDashboard from "../pages/userDashboard/UserDashboard";
+import AdminDashboard from "../pages/adminDashboard/AdminDashboard";
+import AgentDashboard from "../pages/agentDashboard/AgentDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +29,18 @@ export const router = createBrowserRouter([
       {
         path: "/transaction",
         element: <Transactions></Transactions>,
+      },
+      {
+        path: "/user-dashboard",
+        element: <UserDashboard></UserDashboard>,
+      },
+      {
+        path: "/admin-dashboard",
+        element: <AdminDashboard></AdminDashboard>,
+      },
+      {
+        path: "/agent-dashboard",
+        element: <AgentDashboard></AgentDashboard>,
       },
     ],
   },

@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
+  let userRole = "User";
+
   const routes = [
     {
       name: "Home",
@@ -19,6 +21,23 @@ const Navbar = () => {
       path: "/register",
     },
   ];
+
+  if (userRole === "Admin") {
+    routes.push({
+      name: "Admin Dashboard",
+      path: "/admin-dashboard",
+    });
+  } else if (userRole === "Agent") {
+    routes.push({
+      name: "Agent Dashboard",
+      path: "/agent-dashboard",
+    });
+  } else if (userRole === "User") {
+    routes.push({
+      name: "User Dashboard",
+      path: "/user-dashboard",
+    });
+  }
 
   return (
     <div>

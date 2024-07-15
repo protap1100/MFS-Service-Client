@@ -15,7 +15,7 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data)
+    console.log(data);
   };
 
   return (
@@ -66,15 +66,28 @@ const Register = () => {
             </div>
             <div className="mb-5">
               <label className="mb-3 block text-base font-medium text-[#07074D]">
-                Photo Url
+                PIN
               </label>
               <input
-                type="text"
-                name="photoUrl"
-                id="photoUrl"
-                placeholder="Photo Url"
+                type="number"
+                name="Pin"
+                id="pin"
+                placeholder="Enter A New Pin"
                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                {...register("photoUrl")}
+                {...register("pin")}
+              />
+            </div>
+            <div className="mb-5">
+              <label className="mb-3 block text-base font-medium text-[#07074D]">
+                Number
+              </label>
+              <input
+                type="number"
+                name="number"
+                id="Number"
+                placeholder="Enter A Valid Number"
+                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                {...register("number")}
               />
             </div>
             <div>
