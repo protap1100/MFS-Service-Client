@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  let userRole = "User";
+  let userRole = "Admin";
 
   const routes = [
     {

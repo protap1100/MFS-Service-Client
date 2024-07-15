@@ -2,20 +2,87 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import registerImg from "./../../assets/images/Register.jpg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-// import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-// import { toast } from "react-toastify";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
+  const axiosPublic = useAxiosPublic();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const createdAt = Date();
+    const userInfo = {
+      name: data.name,
+      email: data.email,
+      pin: data.pin,
+      number: data.number,
+      password: data.password,
+      status: "Pending",
+      role: data.role,
+      taka: data.role === "Agent" ? 10000 : 40,
+      date: createdAt,
+    };
+
+    const password = data.password;
+
+    if (!/(?=.*[a-z])/.test(password)) {
+      toast.error("Password must contain at least one lowercase letter", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else if (!/(?=.*[A-Z])/.test(password)) {
+      toast.error("Password must contain at least one uppercase letter", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else if (password.length < 6) {
+      toast.error("Password must be 6 characters or higher", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else {
+      const saveUser = await axiosPublic.post("/users", userInfo);
+      if (saveUser.data.insertedId) {
+        reset(),
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "User Added Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+      }
+    }
   };
 
   return (
@@ -24,6 +91,7 @@ const Register = () => {
         <div className="flex-1">
           <img className="rounded" src={registerImg} alt="" />
         </div>
+        <ToastContainer></ToastContainer>
         <div className="flex-1">
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
             <div className="mb-5">
@@ -70,12 +138,37 @@ const Register = () => {
               </label>
               <input
                 type="number"
-                name="Pin"
+                name="pin"
                 id="pin"
                 placeholder="Enter A New Pin"
                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                {...register("pin")}
+                {...register("pin", {
+                  required: "PIN is required",
+                  minLength: { value: 5, message: "PIN must be 5 digits" },
+                  maxLength: { value: 5, message: "PIN must be 5 digits" },
+                })}
               />
+              {errors.pin && (
+                <p className="text-red-600">{errors.pin.message}</p>
+              )}
+            </div>
+            <div className="mb-5">
+              <label className="mb-3 block text-base font-medium text-[#07074D]">
+                Role
+              </label>
+              <select
+                name="role"
+                id="role"
+                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                {...register("role", { required: "Role is required" })}
+              >
+                <option value="">Select a role</option>
+                <option value="User">User</option>
+                <option value="Agent">Agent</option>
+              </select>
+              {errors.role && (
+                <p className="text-red-600">{errors.role.message}</p>
+              )}
             </div>
             <div className="mb-5">
               <label className="mb-3 block text-base font-medium text-[#07074D]">
@@ -84,11 +177,14 @@ const Register = () => {
               <input
                 type="number"
                 name="number"
-                id="Number"
+                id="number"
                 placeholder="Enter A Valid Number"
                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                {...register("number")}
+                {...register("number", { required: "Number is required" })}
               />
+              {errors.number && (
+                <p className="text-red-600">{errors.number.message}</p>
+              )}
             </div>
             <div>
               <label className="mb-3 block text-base font-medium text-[#07074D]">
@@ -98,6 +194,7 @@ const Register = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
+                  autoComplete="on"
                   placeholder="Password"
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   {...register("password", {
