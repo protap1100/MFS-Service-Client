@@ -19,7 +19,11 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axiosPublic.post("/login", data);
-      console.log(response.data);
+      // console.log(response.data);
+      localStorage.setItem("isLoggedIn",true);
+      const userData = JSON.stringify(response.data);
+      // console.log(userData)
+      localStorage.setItem("userInfo",userData)
       Swal.fire({
         title: 'Login Successful',
         icon: "success",

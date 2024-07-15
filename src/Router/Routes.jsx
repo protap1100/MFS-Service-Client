@@ -7,6 +7,7 @@ import Register from "../pages/authentications/Register";
 import UserDashboard from "../pages/userDashboard/UserDashboard";
 import AdminDashboard from "../pages/adminDashboard/AdminDashboard";
 import AgentDashboard from "../pages/agentDashboard/AgentDashboard";
+import AboutMe from "../pages/userProfile/AboutMe";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
         path: "/agent-dashboard",
         element: <AgentDashboard></AgentDashboard>,
       },
+      {
+        path:"/my-profile",
+        element : <AboutMe></AboutMe>
+      }
     ],
   },
 ]);

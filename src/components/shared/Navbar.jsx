@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  let userRole = "Admin";
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+  const userRole =userInfo.user.role;
 
   const routes = [
     {
@@ -19,6 +20,10 @@ const Navbar = () => {
     {
       name: "Register",
       path: "/register",
+    },
+    {
+      name: "My Profile",
+      path: "/my-profile",
     },
   ];
 
