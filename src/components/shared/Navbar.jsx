@@ -1,8 +1,18 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "../../pages/Provider/UserProvider";
+import Loading from "react-loading";
 
 const Navbar = () => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"))
-  const userRole =userInfo.user.role;
+  const { user, loading,handleLogout } = useContext(UserContext);
+
+  if (loading) {
+    return (
+      <div>
+        <Loading type="spin" color="black"></Loading>
+      </div>
+    );
+  }
 
   const routes = [
     {
@@ -27,17 +37,17 @@ const Navbar = () => {
     },
   ];
 
-  if (userRole === "Admin") {
+  if (user && user.role === "Admin") {
     routes.push({
       name: "Admin Dashboard",
       path: "/admin-dashboard",
     });
-  } else if (userRole === "Agent") {
+  } else if (user && user.role === "Agent") {
     routes.push({
       name: "Agent Dashboard",
       path: "/agent-dashboard",
     });
-  } else if (userRole === "User") {
+  } else if (user && user.role === "User") {
     routes.push({
       name: "User Dashboard",
       path: "/user-dashboard",
@@ -63,6 +73,7 @@ const Navbar = () => {
               )}
             </NavLink>
           ))}
+          <li onClick={handleLogout} className="p-2 rounded bg-blue-300 text-white hover:bg-blue-700">Logout</li>
         </ul>
       </nav>
     </div>

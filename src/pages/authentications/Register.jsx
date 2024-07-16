@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import SectionTitle from "../../components/shared/SectionTitle";
 
 const Register = () => {
   const axiosPublic = useAxiosPublic();
@@ -87,6 +88,11 @@ const Register = () => {
 
   return (
     <div>
+      <SectionTitle
+        heading={"New Here?"}
+        subHeading={"Join Us For Safely sending money"}
+      >
+      </SectionTitle>
       <div className="mt-10 flex flex-col lg:flex-row justify-center items-center">
         <div className="flex-1">
           <img className="rounded" src={registerImg} alt="" />
