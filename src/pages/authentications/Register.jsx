@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import registerImg from "./../../assets/images/Register.jpg";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SectionTitle from "../../components/shared/SectionTitle";
 
 const Register = () => {
   const axiosPublic = useAxiosPublic();
-  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -26,63 +23,22 @@ const Register = () => {
       email: data.email,
       pin: data.pin,
       number: data.number,
-      password: data.password,
       status: "Pending",
       role: data.role,
       taka: data.role === "Agent" ? 10000 : 40,
       date: createdAt,
     };
 
-    const password = data.password;
-
-    if (!/(?=.*[a-z])/.test(password)) {
-      toast.error("Password must contain at least one lowercase letter", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      return;
-    } else if (!/(?=.*[A-Z])/.test(password)) {
-      toast.error("Password must contain at least one uppercase letter", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      return;
-    } else if (password.length < 6) {
-      toast.error("Password must be 6 characters or higher", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      return;
-    } else {
-      const saveUser = await axiosPublic.post("/users", userInfo);
-      if (saveUser.data.insertedId) {
-        reset(),
-          Swal.fire({
-            position: "top-center",
-            icon: "success",
-            title: "User Added Successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-      }
+    const saveUser = await axiosPublic.post("/users", userInfo);
+    if (saveUser.data.insertedId) {
+      reset(),
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "User Added Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
     }
   };
 
@@ -192,42 +148,12 @@ const Register = () => {
                 <p className="text-red-600">{errors.number.message}</p>
               )}
             </div>
-            <div>
-              <label className="mb-3 block text-base font-medium text-[#07074D]">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  autoComplete="on"
-                  placeholder="Password"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
-                />
-                <span
-                  className="absolute animate__animated animate__fadeInDown inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <FaEye className="text-gray-800 text-2xl cursor-pointer" />
-                  ) : (
-                    <FaEyeSlash className="text-gray-800 text-2xl cursor-pointer" />
-                  )}
-                </span>
-                {errors.password && (
-                  <p className="text-red-600">{errors.password.message}</p>
-                )}
-              </div>
-            </div>
             <label className="label">
               <a
                 href="#"
                 className="block text-base font-medium text-[#07074D]"
               >
-                Forgot password?
+                Forgot PIN?
               </a>
             </label>
             <div className="form-control mt-6">

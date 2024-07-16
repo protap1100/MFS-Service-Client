@@ -4,8 +4,7 @@ import { UserContext } from "../../pages/Provider/UserProvider";
 import Loading from "react-loading";
 
 const Navbar = () => {
-  const { user, loading,handleLogout } = useContext(UserContext);
-
+  const { user, loading, handleLogout } = useContext(UserContext);
   if (loading) {
     return (
       <div>
@@ -13,6 +12,7 @@ const Navbar = () => {
       </div>
     );
   }
+  console.log(user)
 
   const routes = [
     {
@@ -73,7 +73,18 @@ const Navbar = () => {
               )}
             </NavLink>
           ))}
-          <li onClick={handleLogout} className="p-2 rounded bg-blue-300 text-white hover:bg-blue-700">Logout</li>
+          {user ? (
+            <li>
+              <button
+                onClick={handleLogout}
+                className="p-2 rounded bg-blue-300 text-white hover:bg-blue-700"
+              >
+                Logout
+              </button>
+            </li>
+          ) : (
+            ""
+          )}
         </ul>
       </nav>
     </div>
