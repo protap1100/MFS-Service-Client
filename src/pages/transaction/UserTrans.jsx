@@ -1,14 +1,11 @@
-import { useContext } from "react";
 import { useRef } from "react";
-import { UserContext } from "../Provider/UserProvider";
 import Loading from "../../components/shared/Loading";
 import axios from "axios";
 import useUser from "../../hooks/useUser";
 import Swal from "sweetalert2";
 
 const UserTrans = () => {
-  const { user, loading } = useContext(UserContext);
-  const { singleUser, loading3 } = useUser();
+  const { singleUser, loading3,refetch } = useUser();
   const senderNumber = singleUser?.number;
 
   const sendNumberRef = useRef();
@@ -21,7 +18,7 @@ const UserTrans = () => {
   const cashOutNumberRef = useRef();
   const cashOutAmountRef = useRef();
   const cashOutPinRef = useRef();
-  if (loading || loading3) {
+  if ( loading3) {
     return <Loading></Loading>;
   }
 
@@ -38,7 +35,8 @@ const UserTrans = () => {
         sendPin,
         senderNumber,
       });
-      console.log(response)
+      refetch();
+      // console.log(response)
       Swal.fire({
         title: `${sendAmount} Taka Sended To ${sendNumber}`,
         icon: "success",
