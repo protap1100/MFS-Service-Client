@@ -9,6 +9,7 @@ import AdminDashboard from "../pages/adminDashboard/AdminDashboard";
 import AgentDashboard from "../pages/agentDashboard/AgentDashboard";
 import AboutMe from "../pages/userProfile/AboutMe";
 import PrivateRouter from "./PrivateRouter";
+import MainHome from "../pages/mainHome/MainHome";
 
 export const router = createBrowserRouter([
   {
@@ -17,8 +18,8 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
-        path: "/home",
-        index: true,
+       index: true,
+       element : <MainHome></MainHome>
       },
       {
         path: "/login",
@@ -38,19 +39,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/user-dashboard",
-        element: <UserDashboard></UserDashboard>,
+        element: <PrivateRouter><UserDashboard></UserDashboard></PrivateRouter>,
       },
       {
         path: "/admin-dashboard",
-        element: <AdminDashboard></AdminDashboard>,
+        element: <PrivateRouter><AdminDashboard></AdminDashboard></PrivateRouter>,
       },
       {
         path: "/agent-dashboard",
-        element: <AgentDashboard></AgentDashboard>,
+        element: <PrivateRouter><AgentDashboard></AgentDashboard></PrivateRouter>,
       },
       {
         path: "/my-profile",
-        element: <AboutMe></AboutMe>,
+        element: <PrivateRouter><AboutMe></AboutMe></PrivateRouter>,
       },
     ],
   },
